@@ -34,7 +34,7 @@ const GameOverOverlay = ({ odul, onTekrarOyna, onMenuyeDon }) => {
 
 
 // --- OYUN 1: TAP TAP CATCHER ---
-const TapTapGame = ({ onMenuCikisi, oyunSessizOdulVer }) => {
+const TapTapGame = ({ onMenuCikisi, oyunSessizOdulVer, isDarkMode }) => {
   const [oyunAktif, setOyunAktif] = useState(false);
   const [oyunBitti, setOyunBitti] = useState(false);
   const [kazanilanOdul, setKazanilanOdul] = useState({ altin: 0, xp: 0, mutluluk: 0 });
@@ -46,9 +46,13 @@ const TapTapGame = ({ onMenuCikisi, oyunSessizOdulVer }) => {
     let timer = null;
     if (oyunAktif && kalanSure > 0) {
       timer = setInterval(() => setKalanSure((prev) => prev - 1), 1000);
-    } else if (kalanSure === 0 && oyunAktif) {
+    }
+    return () => clearInterval(timer);
+  }, [oyunAktif, kalanSure]);
+
+  useEffect(() => {
+    if (kalanSure <= 0 && oyunAktif) {
       setOyunAktif(false);
-      
       let kMutluluk = puan;
       let kXp = puan * 2;
       let kAltin = Math.max(5, puan);
@@ -58,8 +62,7 @@ const TapTapGame = ({ onMenuCikisi, oyunSessizOdulVer }) => {
       setKazanilanOdul({ mutluluk: kMutluluk, xp: kXp, altin: kAltin });
       setOyunBitti(true);
     }
-    return () => clearInterval(timer);
-  }, [oyunAktif, kalanSure]);
+  }, [kalanSure, oyunAktif, puan]);
 
   const oyunaBasla = () => {
     setPuan(0);
@@ -95,20 +98,20 @@ const TapTapGame = ({ onMenuCikisi, oyunSessizOdulVer }) => {
   };
 
   return (
-    <View style={styles.gameContainer}>
+    <View style={[styles.gameContainer, isDarkMode && { backgroundColor: '#121212' }]}>
       {oyunBitti ? (
          <GameOverOverlay odul={kazanilanOdul} onTekrarOyna={handleTekrarOyna} onMenuyeDon={handleMenuyeDon} />
       ) : !oyunAktif ? (
         <View style={styles.startContainer}>
-          <Text style={styles.title}>Tap-Tap Catcher 🎮</Text>
-          <Text style={styles.desc}>10 saniye boyunca ekranda beliren hedefi olabildiğince hızlı yakala!</Text>
+          <Text style={[styles.title, isDarkMode && { color: '#ffffff' }]}>Tap-Tap Catcher 🎮</Text>
+          <Text style={[styles.desc, isDarkMode && { color: '#b2bec3' }]}>10 saniye boyunca ekranda beliren hedefi olabildiğince hızlı yakala!</Text>
           <TouchableOpacity style={styles.startButton} onPress={oyunaBasla} activeOpacity={0.8}>
             <Text style={styles.startButtonText}>Başla</Text>
           </TouchableOpacity>
         </View>
       ) : (
-        <View style={styles.gameArea}>
-          <View style={styles.header}>
+        <View style={[styles.gameArea, isDarkMode && { backgroundColor: '#1e1e1e' }]}>
+          <View style={[styles.header, isDarkMode && { backgroundColor: '#121212' }]}>
              <Text style={styles.scoreText}>Skor: {puan}</Text>
              <Text style={styles.timeText}>Süre: {kalanSure}s</Text>
           </View>
@@ -125,7 +128,7 @@ const TapTapGame = ({ onMenuCikisi, oyunSessizOdulVer }) => {
 const EMOJILER = ['🍎', '🦴', '🧶', '⚽'];
 const MAKS_KART = 8; 
 
-const HafizaOyunu = ({ onMenuCikisi, oyunSessizOdulVer }) => {
+const HafizaOyunu = ({ onMenuCikisi, oyunSessizOdulVer, isDarkMode }) => {
    const [kartlar, setKartlar] = useState([]);
    const [secilenler, setSecilenler] = useState([]);
    const [eslesenler, setEslesenler] = useState([]);
@@ -198,20 +201,20 @@ const HafizaOyunu = ({ onMenuCikisi, oyunSessizOdulVer }) => {
    };
 
    return (
-    <View style={styles.gameContainer}>
+    <View style={[styles.gameContainer, isDarkMode && { backgroundColor: '#121212' }]}>
        {oyunBitti ? (
           <GameOverOverlay odul={kazanilanOdul} onTekrarOyna={handleTekrarOyna} onMenuyeDon={handleMenuyeDon} />
        ) : !oyunAktif ? (
          <View style={styles.startContainer}>
-           <Text style={styles.title}>Hafıza Kartları 🃏</Text>
-           <Text style={styles.desc}>Aynı olan çiftleri bul! En az hamleyle bitirmeye çalış.</Text>
+           <Text style={[styles.title, isDarkMode && { color: '#ffffff' }]}>Hafıza Kartları 🃏</Text>
+           <Text style={[styles.desc, isDarkMode && { color: '#b2bec3' }]}>Aynı olan çiftleri bul! En az hamleyle bitirmeye çalış.</Text>
            <TouchableOpacity style={[styles.startButton, {backgroundColor: '#e84393'}]} onPress={oyunaBasla} activeOpacity={0.8}>
              <Text style={styles.startButtonText}>Başla</Text>
            </TouchableOpacity>
          </View>
        ) : (
-         <ScrollView style={styles.memoryArea} contentContainerStyle={{ paddingBottom: 150, paddingTop: 50, alignItems: 'center' }} showsVerticalScrollIndicator={false}>
-             <Text style={styles.hamleText}>Yapılan Hamle: {hamle}</Text>
+         <ScrollView style={[styles.memoryArea, isDarkMode && { backgroundColor: '#1e1e1e' }]} contentContainerStyle={{ paddingBottom: 150, paddingTop: 50, alignItems: 'center' }} showsVerticalScrollIndicator={false}>
+             <Text style={[styles.hamleText, isDarkMode && { color: '#ffffff' }]}>Yapılan Hamle: {hamle}</Text>
              <View style={styles.gridContainer}>
                 {kartlar && kartlar.length > 0 && kartlar.map((kart, index) => {
                    const acikMi = secilenler.includes(index) || eslesenler.includes(index);
@@ -234,7 +237,7 @@ const HafizaOyunu = ({ onMenuCikisi, oyunSessizOdulVer }) => {
 };
 
 // --- OYUN 3: HIZLI MATEMATİK ---
-const MatematikOyunu = ({ onMenuCikisi, oyunSessizOdulVer }) => {
+const MatematikOyunu = ({ onMenuCikisi, oyunSessizOdulVer, isDarkMode }) => {
    const [oyunAktif, setOyunAktif] = useState(false);
    const [oyunBitti, setOyunBitti] = useState(false);
    const [kazanilanOdul, setKazanilanOdul] = useState({ altin: 0, xp: 0, mutluluk: 0 });
@@ -246,7 +249,12 @@ const MatematikOyunu = ({ onMenuCikisi, oyunSessizOdulVer }) => {
       let timer = null;
       if (oyunAktif && kalanSure > 0) {
         timer = setInterval(() => setKalanSure(prev => prev - 1), 1000);
-      } else if (kalanSure <= 0 && oyunAktif) {
+      }
+      return () => clearInterval(timer);
+   }, [oyunAktif, kalanSure]);
+
+   useEffect(() => {
+      if (kalanSure <= 0 && oyunAktif) {
         setOyunAktif(false);
         const calcSkor = skor * 4;
         let kMutluluk = calcSkor;
@@ -258,8 +266,7 @@ const MatematikOyunu = ({ onMenuCikisi, oyunSessizOdulVer }) => {
         setKazanilanOdul({ mutluluk: kMutluluk, xp: kXp, altin: kAltin });
         setOyunBitti(true);
       }
-      return () => clearInterval(timer);
-   }, [oyunAktif, kalanSure]);
+   }, [kalanSure, oyunAktif, skor]);
 
    const sayiUret = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
 
@@ -313,19 +320,19 @@ const MatematikOyunu = ({ onMenuCikisi, oyunSessizOdulVer }) => {
    };
 
    return (
-      <View style={styles.gameContainer}>
+      <View style={[styles.gameContainer, isDarkMode && { backgroundColor: '#121212' }]}>
          {oyunBitti ? (
             <GameOverOverlay odul={kazanilanOdul} onTekrarOyna={handleTekrarOyna} onMenuyeDon={handleMenuyeDon} />
          ) : !oyunAktif ? (
            <View style={styles.startContainer}>
-             <Text style={styles.title}>Hızlı Matematik 🧠</Text>
-             <Text style={styles.desc}>15 saniye içinde en fazla doğru veya eksi işlemini çöz. (Yanlış cevap süreni 2sn kısaltır!)</Text>
+             <Text style={[styles.title, isDarkMode && { color: '#ffffff' }]}>Hızlı Matematik 🧠</Text>
+             <Text style={[styles.desc, isDarkMode && { color: '#b2bec3' }]}>15 saniye içinde en fazla doğru veya eksi işlemini çöz. (Yanlış cevap süreni 2sn kısaltır!)</Text>
              <TouchableOpacity style={[styles.startButton, {backgroundColor: '#8e44ad'}]} onPress={oyunaBasla} activeOpacity={0.8}>
                <Text style={styles.startButtonText}>Başla</Text>
              </TouchableOpacity>
            </View>
          ) : (
-           <View style={styles.mathArea}>
+           <View style={[styles.mathArea, isDarkMode && { backgroundColor: '#1e1e1e' }]}>
               <View style={styles.mathHeader}>
                  <Text style={styles.scoreText}>Doğru: {skor}</Text>
                  <Text style={[styles.timeText, kalanSure <= 5 && {color: 'red'}]}>Süre: {kalanSure}s</Text>
@@ -348,7 +355,7 @@ const MatematikOyunu = ({ onMenuCikisi, oyunSessizOdulVer }) => {
 
 
 // --- OYUN 4: TAŞ KAĞIT MAKAS ---
-const TasKagitMakasOyunu = ({ onMenuCikisi, oyunSessizOdulVer }) => {
+const TasKagitMakasOyunu = ({ onMenuCikisi, oyunSessizOdulVer, isDarkMode }) => {
    const [oyunBitti, setOyunBitti] = useState(false);
    const [oyunAktif, setOyunAktif] = useState(false);
    const [kazanilanOdul, setKazanilanOdul] = useState({ altin: 0, xp: 0, mutluluk: 0 });
@@ -365,6 +372,7 @@ const TasKagitMakasOyunu = ({ onMenuCikisi, oyunSessizOdulVer }) => {
    };
 
    const handleSecim = (userSecim) => {
+      if (sonuc) return;
       const pcSecim = eylemler[Math.floor(Math.random() * eylemler.length)].id;
       setSecimler({ user: userSecim, pc: pcSecim });
       
@@ -394,12 +402,12 @@ const TasKagitMakasOyunu = ({ onMenuCikisi, oyunSessizOdulVer }) => {
    const handleMenuyeDon = () => { oyunSessizOdulVer(kazanilanOdul.mutluluk, kazanilanOdul.xp, kazanilanOdul.altin); onMenuCikisi(); };
 
    return (
-      <View style={styles.gameContainer}>
+      <View style={[styles.gameContainer, isDarkMode && { backgroundColor: '#121212' }]}>
          {oyunBitti ? <GameOverOverlay odul={kazanilanOdul} onTekrarOyna={handleTekrarOyna} onMenuyeDon={handleMenuyeDon} />
          : !oyunAktif ? (
             <View style={styles.startContainer}>
-               <Text style={styles.title}>Taş Kağıt Makas ✊✋✌️</Text>
-               <Text style={styles.desc}>Rakibini yen, 20 Altın ve 30 XP kazan!</Text>
+               <Text style={[styles.title, isDarkMode && { color: '#ffffff' }]}>Taş Kağıt Makas ✊✋✌️</Text>
+               <Text style={[styles.desc, isDarkMode && { color: '#b2bec3' }]}>Rakibini yen, 20 Altın ve 30 XP kazan!</Text>
                <TouchableOpacity style={[styles.startButton, {backgroundColor: '#f39c12'}]} onPress={oyunaBasla} activeOpacity={0.8}>
                   <Text style={styles.startButtonText}>Başla</Text>
                </TouchableOpacity>
@@ -443,7 +451,7 @@ const RENKLER = [
    { isim: 'MOR', renk: '#9b59b6' }
 ];
 
-const RenkAvcisiOyunu = ({ onMenuCikisi, oyunSessizOdulVer }) => {
+const RenkAvcisiOyunu = ({ onMenuCikisi, oyunSessizOdulVer, isDarkMode }) => {
    const [oyunBitti, setOyunBitti] = useState(false);
    const [oyunAktif, setOyunAktif] = useState(false);
    const [kazanilanOdul, setKazanilanOdul] = useState({ altin: 0, xp: 0, mutluluk: 0 });
@@ -471,7 +479,12 @@ const RenkAvcisiOyunu = ({ onMenuCikisi, oyunSessizOdulVer }) => {
       let timer = null;
       if (oyunAktif && kalanSure > 0) {
          timer = setInterval(() => setKalanSure(p => p - 1), 1000);
-      } else if (kalanSure <= 0 && oyunAktif) {
+      }
+      return () => clearInterval(timer);
+   }, [oyunAktif, kalanSure]);
+
+   useEffect(() => {
+      if (kalanSure <= 0 && oyunAktif) {
          setOyunAktif(false);
          const wPuan = skor * 4;
          let kMut = wPuan; let kX = wPuan * 2; let kAl = Math.max(5, wPuan);
@@ -479,8 +492,7 @@ const RenkAvcisiOyunu = ({ onMenuCikisi, oyunSessizOdulVer }) => {
          setKazanilanOdul({ mutluluk: kMut, xp: kX, altin: kAl });
          setOyunBitti(true);
       }
-      return () => clearInterval(timer);
-   }, [oyunAktif, kalanSure, skor]);
+   }, [kalanSure, oyunAktif, skor]);
 
    const secimKontrol = (secim) => {
       if (secim.isim === hedefRenk.isim) {
@@ -495,12 +507,12 @@ const RenkAvcisiOyunu = ({ onMenuCikisi, oyunSessizOdulVer }) => {
    const handleMenuyeDon = () => { oyunSessizOdulVer(kazanilanOdul.mutluluk, kazanilanOdul.xp, kazanilanOdul.altin); onMenuCikisi(); };
 
    return (
-      <View style={styles.gameContainer}>
+      <View style={[styles.gameContainer, isDarkMode && { backgroundColor: '#121212' }]}>
          {oyunBitti ? <GameOverOverlay odul={kazanilanOdul} onTekrarOyna={handleTekrarOyna} onMenuyeDon={handleMenuyeDon} />
          : !oyunAktif ? (
             <View style={styles.startContainer}>
-               <Text style={styles.title}>Renk Avcısı 🎨</Text>
-               <Text style={styles.desc}>Kutunun GÖRSEL RENGİNİ okuyan yazıyı bul! (Hatalar süreden yer)</Text>
+               <Text style={[styles.title, isDarkMode && { color: '#ffffff' }]}>Renk Avcısı 🎨</Text>
+               <Text style={[styles.desc, isDarkMode && { color: '#b2bec3' }]}>Kutunun GÖRSEL RENGİNİ okuyan yazıyı bul! (Hatalar süreden yer)</Text>
                <TouchableOpacity style={[styles.startButton, {backgroundColor: '#e17055'}]} onPress={oyunaBasla} activeOpacity={0.8}>
                   <Text style={styles.startButtonText}>Başla</Text>
                </TouchableOpacity>
@@ -527,7 +539,7 @@ const RenkAvcisiOyunu = ({ onMenuCikisi, oyunSessizOdulVer }) => {
 
 // --- ANA OYUN SEÇİM & RENDER EKRANI ---
 const GameScreen = () => {
-  const { isLoaded, oyunSessizOdulVer } = useContext(TamagotchiContext);
+  const { isLoaded, oyunSessizOdulVer, isDarkMode } = useContext(TamagotchiContext);
   const [secilenOyun, setSecilenOyun] = useState(null); 
 
   if (!isLoaded) return null;
@@ -536,54 +548,54 @@ const GameScreen = () => {
      setSecilenOyun(null);
   };
 
-  if (secilenOyun === 'tap') return <TapTapGame onMenuCikisi={handleMenuDonus} oyunSessizOdulVer={oyunSessizOdulVer} />;
-  if (secilenOyun === 'memory') return <HafizaOyunu onMenuCikisi={handleMenuDonus} oyunSessizOdulVer={oyunSessizOdulVer} />;
-  if (secilenOyun === 'math') return <MatematikOyunu onMenuCikisi={handleMenuDonus} oyunSessizOdulVer={oyunSessizOdulVer} />;
-  if (secilenOyun === 'rps') return <TasKagitMakasOyunu onMenuCikisi={handleMenuDonus} oyunSessizOdulVer={oyunSessizOdulVer} />;
-  if (secilenOyun === 'color') return <RenkAvcisiOyunu onMenuCikisi={handleMenuDonus} oyunSessizOdulVer={oyunSessizOdulVer} />;
+  if (secilenOyun === 'tap') return <TapTapGame onMenuCikisi={handleMenuDonus} oyunSessizOdulVer={oyunSessizOdulVer} isDarkMode={isDarkMode} />;
+  if (secilenOyun === 'memory') return <HafizaOyunu onMenuCikisi={handleMenuDonus} oyunSessizOdulVer={oyunSessizOdulVer} isDarkMode={isDarkMode} />;
+  if (secilenOyun === 'math') return <MatematikOyunu onMenuCikisi={handleMenuDonus} oyunSessizOdulVer={oyunSessizOdulVer} isDarkMode={isDarkMode} />;
+  if (secilenOyun === 'rps') return <TasKagitMakasOyunu onMenuCikisi={handleMenuDonus} oyunSessizOdulVer={oyunSessizOdulVer} isDarkMode={isDarkMode} />;
+  if (secilenOyun === 'color') return <RenkAvcisiOyunu onMenuCikisi={handleMenuDonus} oyunSessizOdulVer={oyunSessizOdulVer} isDarkMode={isDarkMode} />;
 
   return (
-    <ScrollView style={styles.menuContainer} contentContainerStyle={{paddingBottom:40}} showsVerticalScrollIndicator={false}>
-       <Text style={styles.menuTitle}>🎮 Oyun Salonu</Text>
-       <Text style={styles.menuSub}>Eğlenerek Evcil Hayvanını Mutlu Et ve Bolca XP ile Altın Kazan!</Text>
+    <ScrollView style={[styles.menuContainer, isDarkMode && { backgroundColor: '#121212' }]} contentContainerStyle={{paddingBottom:40}} showsVerticalScrollIndicator={false}>
+       <Text style={[styles.menuTitle, isDarkMode && { color: '#ffffff' }]}>🎮 Oyun Salonu</Text>
+       <Text style={[styles.menuSub, isDarkMode && { color: '#b2bec3' }]}>Eğlenerek Evcil Hayvanını Mutlu Et ve Bolca XP ile Altın Kazan!</Text>
        
-       <TouchableOpacity style={styles.oyunCard} onPress={() => setSecilenOyun('tap')} activeOpacity={0.8}>
+       <TouchableOpacity style={[styles.oyunCard, isDarkMode && { backgroundColor: '#1e1e1e' }]} onPress={() => setSecilenOyun('tap')} activeOpacity={0.8}>
            <Text style={styles.cardEmoji}>🧶</Text>
            <View style={styles.cardInfo}>
-              <Text style={styles.cardTitle}>Tap-Tap Catcher</Text>
-              <Text style={styles.cardDesc}>Ekranda aniden beliren hedefleri süre bitmeden yakalama yarışı. Hızlı refleksler gerekir!</Text>
+              <Text style={[styles.cardTitle, isDarkMode && { color: '#74b9ff' }]}>Tap-Tap Catcher</Text>
+              <Text style={[styles.cardDesc, isDarkMode && { color: '#b2bec3' }]}>Ekranda aniden beliren hedefleri süre bitmeden yakalama yarışı. Hızlı refleksler gerekir!</Text>
            </View>
        </TouchableOpacity>
 
-       <TouchableOpacity style={styles.oyunCard} onPress={() => setSecilenOyun('memory')} activeOpacity={0.8}>
+       <TouchableOpacity style={[styles.oyunCard, isDarkMode && { backgroundColor: '#1e1e1e' }]} onPress={() => setSecilenOyun('memory')} activeOpacity={0.8}>
            <Text style={styles.cardEmoji}>🃏</Text>
            <View style={styles.cardInfo}>
-              <Text style={styles.cardTitle}>Hafıza Kartları</Text>
-              <Text style={styles.cardDesc}>Kartları çevir, çiftlerini bul. Ne kadar az hamle yaparsan o kadar çok ödül alırsın!</Text>
+              <Text style={[styles.cardTitle, isDarkMode && { color: '#74b9ff' }]}>Hafıza Kartları</Text>
+              <Text style={[styles.cardDesc, isDarkMode && { color: '#b2bec3' }]}>Kartları çevir, çiftlerini bul. Ne kadar az hamle yaparsan o kadar çok ödül alırsın!</Text>
            </View>
        </TouchableOpacity>
 
-       <TouchableOpacity style={styles.oyunCard} onPress={() => setSecilenOyun('math')} activeOpacity={0.8}>
+       <TouchableOpacity style={[styles.oyunCard, isDarkMode && { backgroundColor: '#1e1e1e' }]} onPress={() => setSecilenOyun('math')} activeOpacity={0.8}>
            <Text style={styles.cardEmoji}>🧠</Text>
            <View style={styles.cardInfo}>
-              <Text style={styles.cardTitle}>Hızlı Matematik</Text>
-              <Text style={styles.cardDesc}>15 Saniye içinde basit işlemleri zihinden çöz. Yanlış cevaplar süreden yer!</Text>
+              <Text style={[styles.cardTitle, isDarkMode && { color: '#74b9ff' }]}>Hızlı Matematik</Text>
+              <Text style={[styles.cardDesc, isDarkMode && { color: '#b2bec3' }]}>15 Saniye içinde basit işlemleri zihinden çöz. Yanlış cevaplar süreden yer!</Text>
            </View>
        </TouchableOpacity>
 
-       <TouchableOpacity style={styles.oyunCard} onPress={() => setSecilenOyun('rps')} activeOpacity={0.8}>
+       <TouchableOpacity style={[styles.oyunCard, isDarkMode && { backgroundColor: '#1e1e1e' }]} onPress={() => setSecilenOyun('rps')} activeOpacity={0.8}>
            <Text style={styles.cardEmoji}>✊</Text>
            <View style={styles.cardInfo}>
-              <Text style={styles.cardTitle}>Taş-Kağıt-Makas</Text>
-              <Text style={styles.cardDesc}>Rakibine karşı doğru hamleyi yap. Galibiyet anında 20 Altın ve 30 XP senin olur!</Text>
+              <Text style={[styles.cardTitle, isDarkMode && { color: '#74b9ff' }]}>Taş-Kağıt-Makas</Text>
+              <Text style={[styles.cardDesc, isDarkMode && { color: '#b2bec3' }]}>Rakibine karşı doğru hamleyi yap. Galibiyet anında 20 Altın ve 30 XP senin olur!</Text>
            </View>
        </TouchableOpacity>
 
-       <TouchableOpacity style={styles.oyunCard} onPress={() => setSecilenOyun('color')} activeOpacity={0.8}>
+       <TouchableOpacity style={[styles.oyunCard, isDarkMode && { backgroundColor: '#1e1e1e' }]} onPress={() => setSecilenOyun('color')} activeOpacity={0.8}>
            <Text style={styles.cardEmoji}>🎨</Text>
            <View style={styles.cardInfo}>
-              <Text style={styles.cardTitle}>Renk Avcısı</Text>
-              <Text style={styles.cardDesc}>Ekrana çıkan kutunun rengini anında seç! Dikkat et, yanlış şıklar zamanından silecek.</Text>
+              <Text style={[styles.cardTitle, isDarkMode && { color: '#74b9ff' }]}>Renk Avcısı</Text>
+              <Text style={[styles.cardDesc, isDarkMode && { color: '#b2bec3' }]}>Ekrana çıkan kutunun rengini anında seç! Dikkat et, yanlış şıklar zamanından silecek.</Text>
            </View>
        </TouchableOpacity>
     </ScrollView>

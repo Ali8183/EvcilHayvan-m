@@ -1,66 +1,78 @@
-# React Native Tamagotchi (Dijital Evcil Hayvan) 🐾
+<div align="center">
 
-Bu proje, React Native kullanılarak geliştirilmiş modern ve "Production Ready" (canlıya çıkmaya hazır) bir **Tamagotchi (Dijital Evcil Hayvan)** bileşenini içerir. İlk başta sadece mantıksal bir iskelet (ham bir kod) olarak başlayan yapı, daha sonra modern arayüz standartlarına uygun, güvenli (defensive programming) ve dinamik geri bildirimler sunan şık bir formata refactor edilmiştir.
+# 🌟 FocusGotchi 🐉
 
-## ✨ Özellikler
+**Pomodoro tekniği ile klasik Tamagotchi (sanal bebek) mekaniklerini birleştiren oyunlaştırılmış, interaktif ve eğlenceli bir üretkenlik ekosistemi!**
 
-- **Modern Arayüz (Card UI):** Yuvarlatılmış köşeler, yumuşak gölgelendirme (shadow/elevation) ve esnek (flexbox) tasarım mimarisiyle tam merkezlenen kullanıcı dostu bir kart tasarımı.
-- **Defensive Programming:** Açlık ve mutluluk değerleri, mantıksal sınırların (`0 - 100`) dışına çıkmaması için `Math.min()` ve `Math.max()` ile güvenlik altına alınmıştır.
-- **Dinamik Emojiler:** Evcil hayvanınızın mutluluk seviyesine göre anlık olarak tepkileri değişir:
-  - `> 80` Mutluluk: 🤩 (Çok Mutlu)
-  - `>= 50` Mutluluk: 😊 (Mutlu)
-  - `>= 30` Mutluluk: 😐 (Orta)
-  - `< 30` Mutluluk: 🥺 (Üzgün)
-- **Görsel Geri Bildirim (UI Feedback):** Evcil hayvanın açlık seviyesi 70'i aştığında tehlikeyi belli etmek adına kartın arka planı kırmızı/pastel uyarı rengine (`#ffcccc`) dönüşür.
-- **Özel Butonlar:** Standart `<Button>` yerine, dokunma hissi (opacity) veren özelleştirilebilir `<TouchableOpacity>` butonları kullanılmıştır.
+Odaklan, görevlerini tamamla, sanal canavarını eğit ve efsanevi formlarına evrimleştir!
 
-## 🛠 Kullanılan Teknolojiler
+[Daha Fazla Bilgi](#özellikler) • [Kurulum Kuralları](#kurulum) • [Oynanış Mekanikleri](#oynanış-mekanikleri)
 
-- **React Native (Expo)**
-- **React Hooks** (`useState`)
-- **JavaScript (ES6+)**
-- **Flexbox Mimarisi** (StyleSheet)
+<br/>
 
-## 🚀 Kurulum ve Çalıştırma
+### 🎥 Tanıtım Videosu: 
+👉 [[YouTube Video Linki Buraya Gelecek]]
 
-Projeyi kendi bilgisayarınızda çalıştırmak için aşağıdaki adımları takip edebilirsiniz:
+### 📱 Uygulamayı İndir (APK): 
+👉 [[Çalışan APK İndirme Linki Buraya Gelecek]]
 
-1. **Repoyu Klonlayın:**
-   ```bash
-   git clone https://github.com/Ali8183/Challenge3.git
-   cd Challenge3
-   ```
-
-2. **Bağımlılıkları Yükleyin:**
-   Eğer projenin kök dizinindeyseniz bağımlılıkları indirin:
-   ```bash
-   npm install
-   ```
-
-3. **Projeyi Başlatın:**
-   Expo sunucusunu başlatmak için şu komutu çalıştırın:
-   ```bash
-   npx expo start
-   ```
-
-4. **Test Edin:**
-   - Ekranda çıkan QR kodu **Expo Go** uygulaması (Android/iOS) ile okutabilirsiniz.
-   - Veya bilgisayarınızda Android Emulator ya da iOS Simulator açıksa komut satırında `a` veya `i` tuşlarına basarak başlatabilirsiniz.
-
-## 📁 Proje Yapısı
-
-Öne çıkan dosyalar:
-- **`App.js`**: Uygulamanın giriş noktasıdır ve `Tamagotchi` bileşenini ekrana çizer.
-- **`Tamagotchi.js`**: Asıl uygulamanın mantığını ve arayüzünü (UI) barındıran temel bileşendir.
-
-## 💡 Code Review & Refactoring Notları
-
-Bu proje geliştirilirken uygulanan bazı en iyi pratikler (best practices):
-
-- **State Güvenliği:** Doğrudan hesaplamalar kod kalmazlığına yol açabileceği için `setAclik((prev) => Math.max(0, prev - 10));` mantığı kullanıldı.
-- **Koşullu Renderın Ayrıştırılması:** Arayüzün karmaşıklaşmasını önlemek adına, emojiyi ekrana asan koşullu (if/else) mantığı `getEmoji()` gibi ayrı bir fonksiyon içine alınarak ("Separation of Concerns") kodun okunabilirliği arttırıldı.
-- **Esnek Yapı:** Butonlar ve içerik için katı pixel/marginTop değerleri yerine platform bağımsız çalışan pürüzsüz `flexDirection` ve `gap` Flex Architecture kuralları tercih edildi.
+<br/>
+</div>
 
 ---
 
-**Geliştirici:** Ali8183 & UX Doctor AI
+## 🔥 Çarpıcı Özellikler
+
+- 🎯 **Akıllı Odak Sayacı (Pomodoro):** Belirlediğin süre boyunca (örn. 3dk, 5dk) telefonundan uzak tutan süre ölçer. Odak bozulmazsa XP ve altın kazandırır; yarıda kesilirse hayvanına ceza verir!
+- 🦅 **Dinamik Evrim Sistemi:** Düzenli bakım, oyun ve odak modundan kazandığın XP ile karakterin Yumurtadan 🥚 ➡️ Yavruya 🐣, Çocuktan 🐥 ➡️ Usta Yetişkine 🦅 evrim geçirir!
+- 🛒 **Premium Market:** Karakterini mutlu ve sağlıklı tutmak için kategorize edilmiş market. Hamburgerlerden şifalı iksirlere, hatta devasa XP veren **Kral Tacı'na 👑** kadar onlarca eşya!
+- 🎮 **Oyun Salonu (5 Farklı Mini Oyun):**
+  - **1. Uzay Yakalayıcı:** Düşen nesneleri yakalama
+  - **2. Hafıza Kartları:** Klasik beyin jimnastiği
+  - **3. Hızlı Matematik:** Zamana karşı zihin testi
+  - **4. Taş-Kağıt-Makas:** Klasik bir yüzleşme
+  - **5. Renk Avcısı:** Doğru renkleri seçerek hızını test et
+- 🏆 **Sürükleyici Başarım Sistemi:** Kazandığın puanları ve tamamladığın görevleri takip et. Görevler tamamlandığında butonlar yanar ve sana ödül kazandırır.
+- 🌓 **Global Karanlık Mod (Dark Mode):** Tüm uygulamayı göz yormayan, premium bir gece temasıyla oynama şansı.
+- 🗑️ **Hard-Reset (İlerlemeyi Sıfırla):** Çok fazla yorulduysan tek tıkla en başa dönüp yepyeni bir evcil hayvanla başlama!
+
+---
+
+## 🛠️ Kullanılan Teknolojiler
+
+Gelişmiş bir modern mobil mimari üzerine inşa edilmiştir:
+
+- **React Native:** Modern ve akıcı UI tasarımı ⚛️
+- **Expo (SDK 54):** Hızlı prototipleme ve kolay deployment 🚀
+- **Context API:** Karmaşık oyun ve seviye state'lerinin eş zamanlı senkronizasyonu 🔗
+- **AsyncStorage:** Oyun kaydedici! İnternete gerek kalmadan ilerlemeni daima hatırlar 💾
+- **React Navigation:** Alttan dinamik sekmeli menü ve kesintisiz geçişler 🗺️
+
+---
+
+## 🚀 Kurulum: Projeyi Bilgisayarında Derle
+
+Bu harika projeyi bilgisayarına kurmak veya kodlarda değişiklik yapmak istersen aşağıdaki adımları izle:
+
+### 1. Dosyaları İndir ve Dizine Gir
+```bash
+git clone https://github.com/Ali8183/EvcilHayvan-m.git
+cd EvcilHayvan-m
+```
+
+### 2. Bağımlılıkları Yükle (Force/Legacy flags gerekmezse npm install kullanabilirsin)
+```bash
+npm install
+```
+
+### 3. Uygulamayı Expo ile Başlat
+```bash
+npx expo start
+```
+
+### 4. Oynamaya Başla
+Açılan terminal ekranındaki QR kodu cep telefonundaki **Expo Go (Android veya iOS)** uygulamasıyla okut ve anında oynamaya başla!
+
+---
+
+*FocusGotchi ❤️ sevgiyle geliştirilmiştir. Düzenli odaklan ve evcil hayvanını hiç aç bırakma!*
